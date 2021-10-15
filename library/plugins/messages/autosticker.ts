@@ -4,10 +4,10 @@ import { proto } from "@adiwajshing/baileys";
 import * as fs from "fs";
 
 export var AutoStickerPrivate: void = globalThis.Client.open("auto-sticker-private", async (data: HandlingData, Cli: ClientMessage) => {
-	const { from, isGambar, isVideo, isGroupMsg, media, id, isPrefix } = data;
+	const { from, isGambar, isVideo, isGroupMsg, media, id, isPrefix, createAPI } = data;
 	if (isGambar && !isGroupMsg && !isPrefix) {
 		try {
-			const Sticker: Buffer = await Cli.respon.stickerWhatsappFormatterWithCropped(await Cli.decryptMedia(media as proto.WebMessageInfo), "RA BOT", " ")
+			const Sticker: Buffer = await createAPI.OpenWaSticker(await Cli.decryptMedia(media as proto.WebMessageInfo), { pack: "RA BOT"})
 			await Cli.sendFile(from, Sticker, { quoted: id })
 		} catch (err) {
 			console.log(err)

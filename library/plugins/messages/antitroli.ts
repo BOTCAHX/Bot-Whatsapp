@@ -8,4 +8,4 @@ export var Troli: void = globalThis.Client.open("Anti Troli", async (data: Handl
 		Cli.client.modifyChat(from, 'clear').catch(() => {})
 		return "Troli anak babi"
 	}
-})
+}, { isBot: false })

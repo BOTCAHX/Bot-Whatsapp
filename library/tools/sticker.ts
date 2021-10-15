@@ -4,15 +4,7 @@ import * as fs from "fs";
 import { exec } from "child_process";
 import { config } from "dotenv";
 config({ path: "./.env"})
-import { Sticker, StickerTypes } from "wa-sticker-formatter";
 
-export const stickerWhatsappFormatterWithCropped = async (media: Buffer | string, pakage?: string, author?: string): Promise <Buffer> => {
-	return new Promise (async (resolve, reject) => {
-		const stiker: Buffer = await new Sticker(media, { pack: pakage  ?? "RA BOT", author: author ?? "",type: StickerTypes.CROPPED , quality: 100 }).build();
-		if (!stiker) return reject(new Error("Error Create Sticker"))
-		return resolve(stiker)
-	})
-}
 
 export const convertWebpNoCrop = async (input: string): Promise <string> => {
 	return new Promise (async (resolve, reject) => {

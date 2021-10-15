@@ -1,5 +1,5 @@
 import { LogLogin, getBuffer, getUrl,  Tunggu,  RandomName, Runtime, autoPath, UserAgent, RandomArray,  Checkker  } from "../functions/function";
-import { Exec, convertToWebp, createWmSticker, stickerWhatsappFormatterWithCropped, WebpToGif, WebpToMp4, convertWebpNoCrop, CreateImageToCircle  } from "../tools"
+import { Exec, convertToWebp, createWmSticker, WebpToGif, WebpToMp4, convertWebpNoCrop, CreateImageToCircle  } from "../tools"
 import {  FunctionMethod, ToolsMethod } from "../typings";
 import { Ucapan } from "./static";
 import {  createExif } from "./createExif";
@@ -24,7 +24,6 @@ const Tools: ToolsMethod = {
 	Exec,
 	convertToWebp,
 	createWmSticker,
-	stickerWhatsappFormatterWithCropped,
 	WebpToGif,
 	WebpToMp4, 
 	Triggered,
