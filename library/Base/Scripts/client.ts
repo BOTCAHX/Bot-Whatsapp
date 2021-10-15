@@ -189,6 +189,7 @@ export class ClientMessage {
 			}
 		}
 	}
+
 	public async sendFile (from: string, media: Buffer | string | proto.WebMessageInfo, _settings?: { caption?: string, quoted?: proto.WebMessageInfo, ptt?: boolean, viewOnce?: boolean, withMentions?: boolean, forwardingScore?: number, filename?: string, sendDocs?: boolean, autoPreview?: proto.ExternalAdReplyInfo }): Promise <proto.WebMessageInfo | void> {
 		const ParseMentioned: string[] | undefined = _settings?.withMentions == true ? (String(_settings?.caption).match(/@(0|[0-9]{4,16})/g)?.map((values: string) => values.split("@")[1] + "@s.whatsapp.net")) : []
 		const Reparse: string[] | undefined = _settings?.withMentions == true ? (await (await this.data.groupMetadata()).groupMember)?.map((values: WAGroupParticipant) => values.jid) : []
@@ -205,8 +206,20 @@ export class ClientMessage {
 				const File: FileTypeResult | undefined = await  filetype.fromBuffer(media)
 				switch (_settings?.sendDocs ? "docs" : File?.ext) {
 					case "docs":
-						return await this.client.sendMessage(from, media, MessageType.document, { quoted: _settings?.quoted, mimetype: File?.mime, filename: _settings?.filename ?? "RA BOT" + RandomName(12), contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore, externalAdReply: _settings?.autoPreview }})	
+						return await this.client.sendMessage(from, media, MessageType.document, { quoted: _settings?.quoted, mimetype: File?.mime, filename: _settings?.filename ?? "RA BOT" + RandomName(12), contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore, externalAdReply: _settings?.autoPreview }})
+					case "gif":
+					    let sendGif: proto.WebMessageInfo = await this.client.prepareMessage(from, media, MessageType.video,  { caption: _settings?.caption, quoted: _settings?.quoted, viewOnce: _settings?.viewOnce ?? false,contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore  } })
+						if (sendGif.message?.videoMessage) {
+							sendGif.message.videoMessage.gifPlayback = true;
+						} else if (sendGif.message?.ephemeralMessage?.message?.videoMessage) {
+							sendGif.message.ephemeralMessage.message.videoMessage.gifPlayback= true;
+						}
+					    return await this.client.relayWAMessage(sendGif)
 					case "mp4":
+					case "mkv":
+					case "m4a":
+					case "m4p":
+					case "m4v":
 						return await this.client.sendMessage(from, media, MessageType.video, { caption: _settings?.caption, quoted: _settings?.quoted, viewOnce: _settings?.viewOnce ?? false, contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore  } })	
 					case "mp3":
 						return await this.client.sendMessage(from, media, MessageType.audio, { quoted: _settings?.quoted, ptt: _settings?.ptt, contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore, externalAdReply: _settings?.autoPreview }})
@@ -224,7 +237,19 @@ export class ClientMessage {
 				switch (_settings?.sendDocs ? "docs" : File?.ext) {
 					case "docs":
 						return await this.client.sendMessage(from, media, MessageType.document, { quoted: _settings?.quoted, mimetype: File?.mime || "application/x", filename: _settings?.filename ?? "RA BOT" + RandomName(12), contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore }})	
+					case "gif":
+					    let sendGif: proto.WebMessageInfo = await this.client.prepareMessage(from, media, MessageType.video,  { caption: _settings?.caption, quoted: _settings?.quoted, viewOnce: _settings?.viewOnce ?? false,contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore  } })
+						if (sendGif.message?.videoMessage) {
+							sendGif.message.videoMessage.gifPlayback = true;
+						} else if (sendGif.message?.ephemeralMessage?.message?.videoMessage) {
+							sendGif.message.ephemeralMessage.message.videoMessage.gifPlayback= true;
+						}
+					    return await this.client.relayWAMessage(sendGif)	
 					case "mp4":
+					case "mkv":
+					case "m4a":
+					case "m4p":
+					case "m4v":
 						return await this.client.sendMessage(from, media, MessageType.video, { caption: _settings?.caption, quoted: _settings?.quoted, viewOnce: _settings?.viewOnce ?? false, contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore } })
 					case "mp3":
 						return await this.client.sendMessage(from, media, MessageType.audio, { quoted: _settings?.quoted, ptt: _settings?.ptt, contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore }})
@@ -237,13 +262,37 @@ export class ClientMessage {
 						return await this.client.sendMessage(from, media, MessageType.document, { quoted: _settings?.quoted, mimetype: File?.mime, filename: _settings?.filename ?? "RA BOT" + RandomName(12), contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore }})	
 				}
 			} else if (typeof media === "string" && getUrl(media)) {
-				let Url: RegExpMatchArray = getUrl(media) as RegExpMatchArray
-				media = await getBuffer(Url[0]);
+				let Url: RegExpMatchArray = getUrl(media) as RegExpMatchArray;
+				let link: string = Url[0];
+				if (this.data.createAPI.RegPinterestDown.exec(Url[0])) {
+					link = await this.data.createAPI.PinterestDown(Url[0]) as string;
+				} else if (this.data.createAPI.RegexTiktok.exec(Url[0])) {
+					try {
+						link = (await this.data.createAPI.TtDownloader(Url[0]))?.nowm as string;
+					} catch (err) {
+						link = (await this.data.createAPI.Musiccaly(Url[0]))?.nowm as string;
+					}
+				} else if (this.data.createAPI.RegexJoox.exec(Url[0])) {
+					link = (await this.data.createAPI.JooxDownloader(((this.data.createAPI.RegexJoox.exec(Url[0]) as RegExpExecArray)[2])).then((value) => value?.url)) as string
+				}
+				media = await getBuffer(link);
 				const File: FileTypeResult | undefined = await  filetype.fromBuffer(media)
 				switch (_settings?.sendDocs == true ? "docs" : File?.ext) {
 					case "docs":
-						return await this.client.sendMessage(from, media, MessageType.document, { quoted: _settings?.quoted, mimetype: File?.mime || "application/x", filename: _settings?.filename ?? "RA BOT" + RandomName(12), contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore }})	
+						return await this.client.sendMessage(from, media, MessageType.document, { quoted: _settings?.quoted, mimetype: File?.mime || "application/x", filename: _settings?.filename ?? "RA BOT" + RandomName(12), contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore }})
+					case "gif":
+					    let sendGif: proto.WebMessageInfo = await this.client.prepareMessage(from, media, MessageType.video,  { caption: _settings?.caption, quoted: _settings?.quoted, viewOnce: _settings?.viewOnce ?? false,contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore  } })
+						if (sendGif.message?.videoMessage) {
+							sendGif.message.videoMessage.gifPlayback = true;
+						} else if (sendGif.message?.ephemeralMessage?.message?.videoMessage) {
+							sendGif.message.ephemeralMessage.message.videoMessage.gifPlayback= true;
+						}
+					    return await this.client.relayWAMessage(sendGif)
 					case "mp4":
+					case "mkv":
+					case "m4a":
+					case "m4p":
+					case "m4v":
 						return await this.client.sendMessage(from, media, MessageType.video, { caption: _settings?.caption, quoted: _settings?.quoted, viewOnce: _settings?.viewOnce ?? false, contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore } })
 					case "mp3":
 						return await this.client.sendMessage(from, media, MessageType.audio, { quoted: _settings?.quoted, ptt: _settings?.ptt, contextInfo: { mentionedJid: Mentioned, forwardingScore: _settings?.forwardingScore }})
