@@ -6,7 +6,8 @@
   "scripts": {
     "test": "ts-node ./library/test/index.ts",
     "start": "ts-node ./library/Base/index.ts",
-    "build": "npm i -g ts-node && npm i"
+    "build": "npm i -g ts-node && npm i",
+    "building": "tsc -p ."
   },
   "type": "commonjs",
   "repository": {
