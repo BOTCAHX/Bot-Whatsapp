@@ -21,7 +21,7 @@ export class EventClients  {
 		})
 		this.App.app.post("/auth", (req, res) => {
 			const { Email, Password } = req.body;
-			if (Email === "Admin" && Password === "iki251429") {
+			if (Email === "Admin" && Password === "admin") {
 				const auth: string  = crypto.randomBytes(32).toString("hex");
 				Tokens[auth] = "admin";
 				res.cookie("AuthToken", auth)
