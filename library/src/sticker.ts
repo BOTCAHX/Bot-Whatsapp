@@ -5,11 +5,11 @@ import * as fs from "fs";
 import { proto } from "@adiwajshing/baileys";
 
 export var Sticker: void = globalThis.Client.on("sticker", async (data: HandlingData, Cli: ClientMessage) => {
-	const { from, id, media, args, isGambar, isQuotedImage, isVideo, isQuotedVideo, isQuotedSticker } = data;
+	const { from, id, media, args, isGambar, isQuotedImage, isVideo, isQuotedVideo, isQuotedSticker, createAPI } = data;
 	if (isGambar || isQuotedImage) 
 		try {
 			await Cli.reply(from, `*⌛* Mohon tunggu sebentar bot sedang melaksanakan perintah`, id)
-			const Sticker: Buffer = await Cli.respon.stickerWhatsappFormatterWithCropped(await Cli.decryptMedia(media as proto.WebMessageInfo),  /\|/gi.test(args.join(" ")) ? args.join(" ").split("|")[0] : undefined , /\|/gi.test(args.join(" ")) ? args.join(" ").split("|")[1] : undefined)
+			const Sticker: Buffer = await createAPI.OpenWaSticker(await Cli.decryptMedia(media as proto.WebMessageInfo), { pack:  /\|/gi.test(args.join(" ")) ? args.join(" ").split("|")[0] : args.join(" "), author:  /\|/gi.test(args.join(" ")) ? args.join(" ").split("|")[1] : undefined})
 			return void await Cli.sendFile(from, Sticker, { quoted: id})
 		} catch (err) {
 			return void Cli.reply(from, "*「❗」* Gagal membuat sticker harap coba lagi lain waktu", id)

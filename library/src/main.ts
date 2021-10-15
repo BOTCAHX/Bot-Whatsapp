@@ -13,6 +13,9 @@ import { groupPromote } from "./groupAction";
 import { GhStalk} from "./github";
 import { NoPakistan } from "./antipakistan";
 import { broadcast } from "./broadcast";
+import { InfoCovid } from "./covid";
+import {  Pinterest } from "./pinterest";
+import { ToUrl } from "./tourl";
 
 // Export 1 aja Bro perwakilan soalnya klo gada di satuin error
 // Muewehehe
@@ -35,4 +38,7 @@ export  function onPattern (): void {
 	GhStalk
 	NoPakistan
 	broadcast
+	InfoCovid
+	Pinterest
+	ToUrl
 }

@@ -11,3 +11,5 @@ export * from "./lirik";
 export * from "./detector";
 export * from "./github";
 export * from "./openwasti";
+export * from "./covid";
+export * from "./upload";

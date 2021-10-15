@@ -1,5 +1,6 @@
 import { proto, WAMessage,  WAGroupMetadata, WAGroupParticipant, WAContact } from "@adiwajshing/baileys";
 import CreateApi from "../routers/api/index";
+import { Configurations } from "./"
 
 export declare class HandlingData extends Validator {
 	contacts: string | WAContact | any;
@@ -32,6 +33,8 @@ export declare class HandlingData extends Validator {
 	createAPI: CreateApi;
 	prefix: string;
 	isPrefix: boolean;
+	config: Configurations;
+	superOwner: boolean;
 }
 export declare class Validator {
 	message: proto.IFutureProofMessage;
@@ -108,6 +111,7 @@ export declare interface getCommand {
 	isQuerryWithReply?: boolean;
 	isMentioned?: boolean;
 	limitText?: number;
+	superOwner?: boolean;
 }
 export declare class EventEmitter implements getCommand {
 	className: string;
@@ -144,4 +148,5 @@ export declare class EventEmitter implements getCommand {
 	isQuerryWithReply?: boolean;
 	isMentioned?: boolean
 	limitText?: number;
+	superOwner?: boolean
 }

@@ -34,6 +34,7 @@ export var Menu: void = globalThis.Client.on("menu", async (data: HandlingData, 
 *🕵🏻‍♂️ Github :* rayyreall
 *🌚 Instagram :* @rayyreall
 *🔑 Apikey* : Ga Pake
+${(process.env.server !== undefined) ? "*🗄 Server :* " + process.env.server : ""} 
 *👾 SC :* https://github.com/rayyreall/Bot-Whatsapp\n\n`
 	for (const key in globalThis.Client.events) {
 		const getEvent:  EventEmitter = globalThis.Client.events[key] as  EventEmitter

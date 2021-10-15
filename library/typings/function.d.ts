@@ -10,12 +10,12 @@ export declare class FunctionMethod {
 	createExif (Path: string, pakage?: string, author?: string): Promise <string>
 	UserAgent (): string;
 	RandomArray (array: any[]): any[]
+	Checkker (kata: string, validasi: string): string
 }
 export declare class ToolsMethod {
 	Exec: (code: string) => Promise <string>;
 	convertToWebp: (input: string) => Promise <string>;
 	createWmSticker: (input: string, exif?: string) => Promise <string>;
-	stickerWhatsappFormatterWithCropped: (media: Buffer | string, pakage?: string, author?: string) => Promise <Buffer>;
 	WebpToGif: (input: string) => Promise <string>
 	WebpToMp4: (input: string) => Promise <string>
 	Triggered: (input: string, output: string) => Promise <string>;
@@ -35,12 +35,12 @@ export declare class Formatter {
 	createExif (Path: string, pakage?: string, author?: string): Promise <string>;
 	convertToWebp: (input: string) => Promise <string>;
 	createWmSticker: (input: string, exif?: string) => Promise <string>;
-	stickerWhatsappFormatterWithCropped: (media: Buffer | string, pakage?: string, author?: string) => Promise <Buffer>;
 	WebpToGif: (input: string) => Promise <string>
 	WebpToMp4: (input: string) => Promise <string>
 	UserAgent (os?: "Windows" | "Linux" | "Android" | "Macintosh" | "iPhone" | "Mac OS" | "default"): string;
 	RandomArray (array: any[]): any[];
 	Triggered: (input: string, output: string) => Promise <string>;
 	convertWebpNoCrop: (input: string) => Promise <string>;
+	Checkker (kata: string, validasi: string): string;
 	CreateImageToCircle: (input: string) => Promise <string>;
 }

@@ -18,7 +18,7 @@ export declare interface ICmdSticker {
 
 export declare interface IConfiguration {
 	public: boolean;
-	antipakistan: boolean
+	antipakistan: boolean;
 }
 
 export declare class IAwayFromKeyboard {
@@ -26,4 +26,13 @@ export declare class IAwayFromKeyboard {
 	from: string; 
 	alasan: string; 
 	time: number;
+}
+
+export declare interface Configurations {
+	isWeb?: boolean;
+	path?: string;
+	public?: boolean;
+	antipakistan?: boolean;
+	cookies?: string;
+	database?: string;
 }

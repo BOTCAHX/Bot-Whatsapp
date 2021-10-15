@@ -77,4 +77,4 @@ export var TiktokDownloader: void = globalThis.Client.on("tiktok downloader", as
 	if (Download && /(musik|music)/i.test(args[0])) return void await Cli.sendVideo(from, (Download as ITTDownloader).audio as string, { quoted: id, caption: Text })
 	if (Download) return void await Cli.sendVideo(from, Download.nowm || ((Download as ITTDownloader).wm || (Download as IMussically).mp4) as string, { quoted: id, caption: Text})
 	return void await Cli.reply(from, `*「❗」* Mohon maaf kak fitur downloader saat ini sedang error harap coba lagi lain waktu`, id)
-}, { command: ["ttdl", "tiktokdownloader", "tiktok", "tt"], tag: "downloader", event: ["tiktok <url tiktok>"]})
+}, { command: ["ttdl", "tiktokdownloader", "tiktok", "tt"], tag: "downloader", event: ["tiktok <url tiktok>"], isUrl: true})

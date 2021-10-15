@@ -26,16 +26,16 @@ export var Execute: void = globalThis.Client.on("execute", async (data: Handling
 }, { event: ["$ <execute>"], command: "$", tag: "owner", withPrefix: false, isOwner: true, isQuerry: true, antispam: false })
 
 export var Publik: void = globalThis.Client.on("publik", async function (data: HandlingData, Cli: ClientMessage) {
-	const { from, id } = data;
+	const { from, id, config } = data;
 	if (Public.public) return Cli.reply(from, "Bot Saat Ini sudah publik", id);
-	SettingsPublic(true)
+	SettingsPublic(true, config.cookies)
 	Cli.reply(from, "Berhasil mengubah status menjadi publik ketik *self* jika kamu ingin mengubah status bot menjadi self", id)
 }, { event: ["publik"], command: ["public", "publik"], withPrefix: false, tag: "owner", isOwner: true })
 
 export var Self: void = globalThis.Client.on("self", async function (data: HandlingData, Cli: ClientMessage) {
-	const { from, id } = data;
+	const { from, id, config } = data;
 	if (!Public.public) return Cli.reply(from, "Bot Saat Ini sudah Self", id);
-	SettingsPublic(false)
+	SettingsPublic(false, config.cookies)
 	Cli.reply(from, "Berhasil mengubah status menjadi self ketik *publik* jika kamu ingin mengubah status bot anda menjadi publik", id)
 }, { event: ["self"], command: ["self"], withPrefix: false, tag: "owner", isOwner: true })
 

@@ -3,6 +3,7 @@ export declare class EventCommand {
 	isGroupAdmins?: boolean;
 	isOwner?: boolean;
 	enable?: boolean;
+	isBot?: boolean;
 }
 
 export declare class EventsEmit implements EventCommand {
@@ -12,4 +13,5 @@ export declare class EventsEmit implements EventCommand {
 	isGroupAdmins?: boolean;
 	isOwner?: boolean;
 	enable?: boolean;
+	isBot?: boolean;
 }
