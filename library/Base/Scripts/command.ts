@@ -1,5 +1,5 @@
 import { WAConnection } from "@adiwajshing/baileys";
-import { getCommand, HandlingData, EventEmitter, IRegister, IStickerCmd, EventCommand, EventsEmit   } from "../../typings";
+import { getCommand, HandlingData, EventEmitter, IRegister, IStickerCmd, EventCommand, EventsEmit, Configurations } from "../../typings";
 import chalk from "chalk";
 import { ClientMessage  } from ".";
 import * as fs from "fs";
@@ -25,7 +25,7 @@ export class CommandHandler {
 	public detector: any = Detections;
 	public client: WAConnection | undefined;
 	public res: ClientMessage  | undefined;
-	constructor() {
+	constructor(public config: Configurations) {
     }
 	public on (className: string, callback: (data: HandlingData, res: ClientMessage, event: EventEmitter) => void, _event: getCommand) {
 		_event.withPrefix = _event.withPrefix ?? true
@@ -43,7 +43,8 @@ export class CommandHandler {
 		}
 	}
 	public open (className: string, callback: (data: HandlingData, res: ClientMessage, event: EventsEmit ) => any, _event: EventCommand = {}) {
-		_event.enable = _event.enable ? _event.enable : true
+		_event.enable = _event.enable ? _event.enable : true;
+		_event.isBot = _event.isBot ? _event.isBot : true;
 		if (!this.detector[className]) this.detector[className] = {
 			target: className,
 			callback,
@@ -59,13 +60,14 @@ export class CommandHandler {
 		return new Promise (async (resolve, reject) => {
 			this.client = client;
 			this.res = res;
-			let { isOwner, isGroupMsg, groupMetadata, fromMe, Jam, sender, args, pushname } = data;
+			let { isOwner, isGroupMsg, groupMetadata, fromMe, Jam, sender, args, pushname, isBot } = data;
 			try {
 				Object.keys(this.detector).map(async (className) => {
 					const event: EventsEmit = this.detector[className];
 					if (!event.enable && !isOwner) return;
 					if (event.isGroupMsg && !isGroupMsg) return;
 					if (event.isGroupAdmins && (await groupMetadata()).isGroupAdmins) return;
+					if (event.isBot && isBot) return;
 					let hasil: string | undefined;
 					try {
 						hasil = (await event.callback(data, res, event)) 
@@ -84,18 +86,20 @@ export class CommandHandler {
 		return new Promise (async (resolve, reject) => {
 			this.client = client
 			this.res = res;
-			let { isOwner, prefix,  command, isGroupMsg, from, id,  groupMetadata, Jam, fromMe, args, pushname, sender, media, getIdButton, bodyQuoted, isSticker, FileSha, mentioned } = data;
-			const database: IRegister[] = JSON.parse(fs.readFileSync(Path).toString()) as IRegister[];
+			let { isOwner, prefix,  command, isGroupMsg, from, id,  groupMetadata, Jam, fromMe, args, pushname, sender, media, getIdButton, bodyQuoted, isSticker, FileSha, mentioned, superOwner } = data;
+			if (this.config.database && !fs.existsSync(this.config.database + "register.json")) fs.writeFileSync(this.config.database + "register.json", JSON.stringify([]))
+			if (this.config.database && !fs.existsSync(this.config.database + "sticmd.json")) fs.writeFileSync(this.config.database + "sticmd.json", JSON.stringify([]))
+			const database: IRegister[] = JSON.parse(fs.readFileSync(this.config.database ? this.config.database + "register.json" : Path).toString()) as IRegister[];
 			if (!database.find((value) => value.id == sender)) {
 				database.push({ id: sender as string, status: false, hit: 1, multi: true, prefix: ".", simple: false})
-				fs.writeFileSync(Path, JSON.stringify(database, null, 2))
+				fs.writeFileSync(this.config.database ? this.config.database + "register.json" : Path, JSON.stringify(database, null, 2))
 			}
 			try {
 				for (const className in this.events) {
 					const event: EventEmitter = this.events[className];
 					if (!event.enable && !isOwner) continue;
 					if (isSticker) {
-						const _database: IStickerCmd[] = JSON.parse(fs.readFileSync(SaveStiCmd).toString()) as IStickerCmd[];
+						const _database: IStickerCmd[] = JSON.parse(fs.readFileSync(this.config.database ? this.config.database + "sticmd.json" : SaveStiCmd).toString()) as IStickerCmd[];
 						if (_database.find((value) => value.id == sender)) command =  _database.find((value) => value.id == sender)?.cmd.find((values) => values.id === FileSha)?.command || ""
 						command = prefix + command;
 					}
@@ -107,11 +111,8 @@ export class CommandHandler {
 					event.simple = (event.simple == undefined) ? false : event.simple;
 					event.antispam = (event.antispam == undefined) ? true : event.antispam;
 					event.isBlockir = (event.isBlockir == undefined) ? true : event.isBlockir;
-					if (database.find((value) => value.id == sender)) {
-						database[database.findIndex((value: IRegister) => value.id == sender)].hit++
-						fs.writeFileSync(Path, JSON.stringify(database, null, 2))
-					}
 					if (event.isOwner && !isOwner) return;
+					if (event.superOwner && !superOwner) return;
 					if (event.isBlockir && this.client.blocklist.find((values: string) => values === sender?.replace("@c.us", "@s.whatsapp.net"))) return;
 					if (event.antispam && !isOwner && !!doubleSpam.has(sender as string)) return;
 					if (event.antispam && !isOwner && !!rejectSpam.has(sender as string)) return;
