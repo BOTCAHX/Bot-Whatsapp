@@ -1,0 +1,219 @@
+html {
+    position: relative;
+    min-height: 100%;
+    font-family: Nunito;
+}
+h1 {
+    margin-top: 0px;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 28px;
+}
+
+body,
+#submit-btn {
+    background: linear-gradient(132deg, #3498db, #9b59b6);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 33s ease infinite;
+    -moz-animation: AnimationName 33s ease infinite;
+    -o-animation: AnimationName 33s ease infinite;
+    animation: AnimationName 33s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0% {
+        background-position: 0% 2%;
+    }
+    50% {
+        background-position: 100% 99%;
+    }
+    100% {
+        background-position: 0% 2%;
+    }
+}
+@-moz-keyframes AnimationName {
+    0% {
+        background-position: 0% 2%;
+    }
+    50% {
+        background-position: 100% 99%;
+    }
+    100% {
+        background-position: 0% 2%;
+    }
+}
+@-o-keyframes AnimationName {
+    0% {
+        background-position: 0% 2%;
+    }
+    50% {
+        background-position: 100% 99%;
+    }
+    100% {
+        background-position: 0% 2%;
+    }
+}
+@keyframes AnimationName {
+    0% {
+        background-position: 0% 2%;
+    }
+    50% {
+        background-position: 100% 99%;
+    }
+    100% {
+        background-position: 0% 2%;
+    }
+}
+
+label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 22pt;
+    font-weight: bold;
+    font-kerning: normal;
+    text-align: center;
+}
+#user-email {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 21px;
+    border: none;
+    box-shadow: 0px 0px 2px #ffffff;
+    cursor: auto;
+    color: white;
+    font-family: 'Raleway SemiBold', sans-serif;
+    height: 38.3px;
+    margin: 0 auto;
+    transition: 0.25s;
+    width: 167.8px;
+    outline: none;
+    box-sizing: border-box;
+    padding-left: 1rem;
+}
+
+#user-email::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#user-password {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 21px;
+    border: none;
+    box-shadow: 0px 0px 2px #ffffff;
+    cursor: auto;
+    color: white;
+    font-family: 'Raleway SemiBold', sans-serif;
+    height: 38.3px;
+    margin-top: 28px;
+    transition: 0.25s;
+    width: 167.8px;
+    position: center;
+    box-sizing: border-box;
+    padding-left: 1rem;
+}
+
+#user-password::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+}
+
+#card-title {
+    font-family: 'Raleway Thin', sans-serif;
+    letter-spacing: 4px;
+    padding-bottom: 23px;
+    padding-top: 13px;
+    text-align: center;
+}
+#signup {
+    color: #83081b;
+    font-family: 'Raleway', sans-serif;
+    font-size: 10pt;
+    text-align: center;
+}
+#submit-btn {
+    border-radius: 21px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-family: 'Raleway SemiBold', sans-serif;
+    height: 42.3px;
+    margin: 0 auto;
+    transition: 0.25s;
+    width: 153px;
+    margin-top: 28px;
+    margin-left: 0.47rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#submit-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+}
+
+.login-box {
+    width: 320px;
+    height: 420px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 70px;
+    transform: translate(-50%, -50%);
+    margin-top: 8px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+.login-box p {
+    margin-bottom: 0px;
+    padding: 0px;
+    font-weight: bold;
+}
+.login-box input {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.login-box input[type='text'],
+input[type='password'] {
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none !important;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.login-box a {
+    text-decoration: none;
+    font-size: 14px;
+    color: rgb(247, 55, 55);
+}
+.underline-title {
+    margin-top: 0px;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 32px;
+    font-family: 'Raleway', sans-serif;
+}
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    left: calc(50% - 40px);
+    margin-top: 20px;
+}
+
+.form {
+    margin-left: 0.47rem;
+}
+
+.sungkem {
+    position: relative;
+    top: 80vh;
+    transform: scale(0.5);
+}

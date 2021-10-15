@@ -2,17 +2,34 @@ import { WAConnection, WAOpenResult, Browsers } from '@adiwajshing/baileys';
 import chalk from "chalk";
 import * as fs from "fs";
 import axios, { AxiosResponse } from "axios";
-import { getClientVersion } from "../../typings";
+import { getClientVersion, Configurations } from "../../typings";
+import WebData from "../../routers/Web/Server/server";
+import qrCode from "qrcode"
 
+let Path: string = "./library/routers/account/session_bot.json";
 
-const Path: string = "./library/routers/account/session_bot.json";
+let QrData: string | null = null;
+let Qr: { id: string, total: number }[] = []
 
 export default class Connections {
-	constructor (public client: WAConnection) {
+	constructor (public client: WAConnection,  public App: WebData, public Config?: Configurations) {
 	}
 	private LoginQr (): void {
 		return void this.client.on("qr", (qr: string) => {
-			console.log(chalk.red('[!]'), chalk.hex('#e3ff00')('Please scan your Qr code immediately...........'))
+			let lokasi : number= Qr.findIndex((value) => value.id === this.Config?.cookies)
+			if (lokasi == -1) Qr.push({ id: this.Config?.cookies as string, total: 1 })
+			if (lokasi !== -1) Qr[lokasi].total = Qr[lokasi].total + 1
+			let newLoc: number =  Qr.findIndex((value) => value.id === this.Config?.cookies)
+			if (this.Config?.isWeb) {
+				qrCode.toDataURL(qr, (err, url) => {
+					QrData = url;
+					this.App.App.io.emit("qr", QrData)
+				})
+				if (Qr[newLoc].total > 3) this.client.removeAllListeners("qr")
+			} else {
+				if (Qr[newLoc].total >= 3) this.client.removeAllListeners("qr")
+				console.log(chalk.red('[!]'), chalk.hex('#e3ff00')('Please scan your Qr code immediately...........'))
+			}
 		})
 	}
 	private async getVersion (): Promise <[number, number, number]> {
@@ -28,9 +45,9 @@ export default class Connections {
 		return respon
 	}
 	private async getSessions (): Promise <WAOpenResult> {
-		fs.existsSync(Path) && this.client.loadAuthInfo(Path)
+		fs.existsSync(this.Config?.path || Path) && this.client.loadAuthInfo(this.Config?.path || Path)
 		const connect: WAOpenResult = await this.client.connect();
-		fs.writeFileSync(Path, JSON.stringify(this.client.base64EncodedAuthInfo(), null, 2))
+		fs.writeFileSync(this.Config?.path || Path, JSON.stringify(this.client.base64EncodedAuthInfo(), null, 2))
 		return connect
 	}
 	private ConfigurationBeforeLogin (version: [number, number, number]): void {

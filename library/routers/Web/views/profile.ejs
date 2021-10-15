@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="Profile.css">
+</head>
+<body>
+<header>
+    <div class="user">
+        <img src="assets/thumb.png" alt="">
+        <h3 class="name">RA BOT</h3>
+        <p class="post">rayyreall</p>
+    </div>
+    <nav class="navbar">
+        <ul>
+			 <li><a id="create" href="/connect"><%= (typeof status !== 'undefined') ? status ? "disconect" : "connect" : 'connect' %> </a></li>
+        </ul>
+    </nav>
+</header>
+<div id="menu" class="fas fa-bars"></div>
+<section class="about" id="about">
+<h1 class="heading"> <span>Information</span> <%= (typeof botname !== 'undefined') ? botname : 'RA BOT' %></h1>
+<div class="row">
+    <div class="info">
+        <h3> <span> Nama : </span> <%= (typeof nama !== 'undefined') ? nama : 'rayyreall' %> </h3>
+        <h3> <span> Nama Bot : </span> <%= (typeof owner !== 'undefined') ? botname : 'RA BOT' %> </h3>
+        <h3> <span> Status : </span> <%= (typeof status !== 'undefined' && nomer) ? status ? "Terhubung Ke Nomer" + nomer : "Tidak Terhubung" : 'Tidak Terhubung' %> </h3>
+        <h3> <span> Script Bot : </span> <a href="https://github.com/rayyreall/Bot-Whatsapp"> https://github.com/rayyreall/Bot-Whatsapp</a></h3>
+        <h3> <span> Bahasa Bot : </span> Typescript & javascript for backend, html & css for server </h3>
+		<h3> <span> Total Pengintip: </span> <span id="total_online"><%= (typeof pengintip !== 'undefined') ? pengintip : 1 %></span></h3>
+        <a href="#"><button class="btn"> Download Script <i class="fas fa-download"></i> </button></a>
+    </div>
+</div>
+</section>
+<section class="contact" id="contact">
+	<h1 class="heading">Configurations</h1>
+	<div class="row">
+		<div class="content"></div>
+		<form action="/config" method="POST">
+			<input type="text" name= "nama_bot" placeholder="nama_bot" class="box">
+			<input type="number" name= "nomer" placeholder="bot number" class="box">
+			<button type="submit" class="btn">Konfirmasi</button>
+		</form>
+		<div class="lah"><center><%= (typeof config !== 'undefined') ? "Succes Configurations" : "Set Configuration" %></center></div>
+	</div>
+	</section>
+<section class="connect" id="connect">
+	<h1 id="Title" class="heading">Scan Here ....</h1>
+	<div class="row">
+		<div class="content">
+			<img id="qrcode"></img>
+		</div>
+	</div>
+</section>	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+		var socket = io();
+		socket.emit("join")
+		socket.on("qr", (qr) => {
+			document.getElementById("qrcode").src= qr;
+		})
+		socket.on("connection", () => {
+			
+		})
+		$("#create").click(() => {
+			socket.emit("create")
+		})
+</script>
+</body>
+</html>

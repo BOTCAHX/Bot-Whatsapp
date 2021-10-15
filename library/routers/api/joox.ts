@@ -10,6 +10,7 @@ export default class JOOXMusik extends Google {
 	constructor () {
 		super()
 	}
+	public RegexJoox: RegExp = /(?:http(?:s|):\/\/|)(?:www\.|)joox(\.com)\/id\/(?:single|album|playlist)\/([+=-_0-9A-Za-z]{6,38})/gi
 	public JooxDownloader = async (id: string): Promise <JooxDown|null> => {
 		return new Promise(async (resolve, reject) => {
 			try {

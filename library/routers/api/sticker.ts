@@ -1,11 +1,14 @@
 import axios from "axios";
+import Covid from "./covid";
 import filetype, { FileTypeResult } from "file-type";
 import * as fs from "fs";
 import { ImageStickerOpenWa,  IStickerMetadata, VideoStickerOpenWa } from "../../typings"
 
 
-export default class StickerCreate  {
-	constructor () {};
+export default class StickerCreate  extends Covid {
+	constructor () {
+		super()
+	};
 	public OpenWaStickerImage = async (file: Buffer | string, stickerMetadata?: IStickerMetadata): Promise <Buffer> => {
 		return new Promise(async (resolve, reject) => {
 			if (stickerMetadata) {

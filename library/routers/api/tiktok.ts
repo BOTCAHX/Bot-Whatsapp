@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-import { JSDOM, ResourceLoader  } from "jsdom";
 import cheerio, { CheerioAPI } from "cheerio";
 import { response } from "../../plugins";
 import Joox from "./joox";
-import { Formatter, TiktokStalk, FormatPostTTDownloader, ITTDownloader, IMussically, ITiktokVideoMetadata,  SnaptikDown  } from "../../typings";
+import { Formatter, TiktokStalk, FormatPostTTDownloader, ITTDownloader, IMussically, ITiktokVideoMetadata  } from "../../typings";
 import { config } from "dotenv";
 config({ path: "./.env"})
 
@@ -17,6 +16,7 @@ export default class Tiktok extends Joox {
 	constructor () {
 		super()
 	}
+	public RegexTiktok: RegExp = /(?:http(?:s|):\/\/|)(?:www\.|)tiktok.com\/@([-_0-9A-Za-z]{3,14})\/video\/([0-9]{8,50})(?:\?is_copy_url=0&is_from_webapp=v1&sender_device=pc&sender_web_id=(?:[0-9]{8,50}))|(?:http(?:s|):\/\/|)(?:(?:vt|vm)\.tiktok\.com\/([-_0-9A-Za-z]{3,14}))/g
 	public TtDownloader = async (url: string): Promise <ITTDownloader|null> => {
 		return new Promise(async (resolve, reject) => {
 			try {

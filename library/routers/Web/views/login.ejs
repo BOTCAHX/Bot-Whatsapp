@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE-edge"/>
+		<title>Login RABOT</title>
+		<link rel="stylesheet" type="text/css" href="Login.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+	<body>
+		<div id="Card">
+			<div id="card-content">
+				<div id="card-title">
+					<div class="underline-title"><%= (typeof name !== 'undefined') ? name : 'RA BOT' %></div>
+				</div>
+				<div class="login-box">
+					<img src="assets/thumb.png" class="avatar">
+					<h1>Login</h1>
+					<form action="auth" method="POST" class="form">
+						<input id="user-email" class="form-content"  name="Email" placeholder="Enter Username" autocomplete="on" required/>
+						<input id="user-password" class="form-content" type="Password" name="Password" placeholder="Enter Passwords" autocomplete="on" required/>
+						<input id="submit-btn" type="submit" name="submit" value="Login">
+					</form>
+				</div>
+				<div id="card-title">
+					<div class="underline-title sungkem">Sungkem lord manu</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+			var socket = io();
+			socket.emit("join")
+	</script>
+</html>
