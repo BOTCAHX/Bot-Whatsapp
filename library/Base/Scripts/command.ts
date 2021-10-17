@@ -2,6 +2,7 @@ import { WAConnection } from "@adiwajshing/baileys";
 import { getCommand, HandlingData, EventEmitter, IRegister, IStickerCmd, EventCommand, EventsEmit, Configurations } from "../../typings";
 import chalk from "chalk";
 import { ClientMessage  } from ".";
+import HandleExports from "./handleExports";
 import * as fs from "fs";
 import { config } from 'dotenv';
 config({ path: './.env' });
@@ -18,7 +19,6 @@ const antispam: Set<String> = new Set();
 const waitSpam: Set<String> = new Set();
 const rejectSpam: Set<String> = new Set();
 const doubleSpam: Set<String> = new Set();
-const spamValidasi: Set<String> = new Set();
 
 export class CommandHandler {
 	public events: any = Events;
@@ -27,19 +27,32 @@ export class CommandHandler {
 	public res: ClientMessage  | undefined;
 	constructor(public config: Configurations) {
     }
-	public on (className: string, callback: (data: HandlingData, res: ClientMessage, event: EventEmitter) => void, _event: getCommand) {
+	public async on (className: string, callback: (data: HandlingData, res: ClientMessage, event: EventEmitter) => void, _event: getCommand) {
 		_event.withPrefix = _event.withPrefix ?? true
 		_event.enable = _event.enable ? _event.enable : true
-		if (!this.events[className]) 
-		this.events[className] = {
-			nameClass: className,
-			callback,
-			..._event
-		}
-		this.events[className] = {
-			...this.events[className],
-			callback,
-			..._event
+		let getExports =  await new HandleExports().getHandle()
+		for (let result in getExports) {
+			if (!this.events[className] && !this.events[result])  {
+				this.events[className] = {
+					nameClass: className,
+					callback,
+					..._event
+				}
+			}
+			if (!this.events[className] && !this.events[result])  {
+				this.events[result] = {
+					nameClass: result,
+					...getExports[result]
+				}
+			}
+			this.events[result] = {
+				...getExports[result]
+			}
+			this.events[className] = {
+				...this.events[className],
+				callback,
+				..._event
+			}
 		}
 	}
 	public open (className: string, callback: (data: HandlingData, res: ClientMessage, event: EventsEmit ) => any, _event: EventCommand = {}) {
@@ -111,6 +124,10 @@ export class CommandHandler {
 					event.simple = (event.simple == undefined) ? false : event.simple;
 					event.antispam = (event.antispam == undefined) ? true : event.antispam;
 					event.isBlockir = (event.isBlockir == undefined) ? true : event.isBlockir;
+					if (database.find((value) => value.id == sender)) {
+						database[database.findIndex((value: IRegister) => value.id == sender)].hit++
+						fs.writeFileSync(Path, JSON.stringify(database, null, 2))
+					}
 					if (event.isOwner && !isOwner) return;
 					if (event.superOwner && !superOwner) return;
 					if (event.isBlockir && this.client.blocklist.find((values: string) => values === sender?.replace("@c.us", "@s.whatsapp.net"))) return;
