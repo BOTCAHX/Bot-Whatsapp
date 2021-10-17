@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "ts-node ./library/test/index.ts",
-    "start": "ts-node ./library/Base/index.ts",
+    "start": "tsc && node ./library/dist/Base/index.js",
     "build": "npm i -g ts-node && npm i",
     "building": "tsc -p ."
   },
