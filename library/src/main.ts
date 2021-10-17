@@ -1,44 +1,41 @@
-import { Eval,  Execute } from "./eval";
-import { Menu, Owner } from "./menu";
-import { Sticker } from "./sticker";
-import { Tomp3 } from "./converter";
-import { YtSearch } from "./youtube";
-import { MultiPrefix } from "./prefix";
-import { Tiktokstalk } from "./tiktok";
-import { SearchJoox } from "./joox";
-import { googleSearch } from "./google";
-import { Circle } from "./manipulation";
-import { AddStickerCmd } from "./isStickerCmd";
-import { groupPromote } from "./groupAction";
-import { GhStalk} from "./github";
-import { NoPakistan } from "./antipakistan";
-import { broadcast } from "./broadcast";
-import { InfoCovid } from "./covid";
-import {  Pinterest } from "./pinterest";
-import { ToUrl } from "./tourl";
+import fs from "fs";
+import path from "path";
 
-// Export 1 aja Bro perwakilan soalnya klo gada di satuin error
-// Muewehehe
-export  function onPattern (): void {
-	import ("../plugins/messages/index").then((data) => new data.default().run())
-	Eval
-	Menu
-	Sticker
-	Execute
-	Owner
-	Tomp3
-	YtSearch
-	MultiPrefix
-	Tiktokstalk
-	SearchJoox
-	googleSearch
-	Circle
-	AddStickerCmd
-	groupPromote
-	GhStalk
-	NoPakistan
-	broadcast
-	InfoCovid
-	Pinterest
-	ToUrl
+
+export  function onPattern (){
+	return new Promise (async (resolve, reject) => {
+		fs.readdirSync("./library/chats/")
+		.filter((extentions) => extentions.endsWith(".ts")).forEach(async (value) => {
+			try {
+				const getImport: any = (await import(path.join(__dirname, "../chats/", value)))
+				for (let result in getImport) {
+					getImport[result]
+				}
+			} catch (err) {
+				console.log(err)
+			}
+		})
+		fs.readdirSync("./library/plugins/messages/")
+		.filter((extentions) => extentions.endsWith(".ts")).forEach(async (value) => {
+			try {
+				const getImport: any = (await import(path.join(__dirname, "../plugins/messages/", value)))
+				for (let result in getImport) {
+					getImport[result]
+				}
+			} catch (err) {
+				console.log(err)
+			}
+		})
+		fs.readdirSync("./library/src/").filter((main) => main !== "main.ts")
+		.filter((extentions) => extentions.endsWith(".ts")).forEach(async (value) => {
+			try {
+				const getImport: any = (await import(path.join(__dirname,  value)))
+				for (let result in getImport) {
+					resolve(getImport[result])
+				}
+			} catch (err) {
+				console.log(err)
+			}
+		})
+	})
 }

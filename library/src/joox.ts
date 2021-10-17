@@ -4,7 +4,7 @@ import got  from "got";
 
 
 
-export var SearchJoox: void = globalThis.Client.on("joox search", async (data: HandlingData, Cli: ClientMessage, event: EventEmitter) => {
+export var SearchJoox = globalThis.Client.on("joox search", async (data: HandlingData, Cli: ClientMessage, event: EventEmitter) => {
 	const  { from, args, id, sendOwner } = data;
 	var { JooxSearch } = data.createAPI;
 	return void await JooxSearch(args.join(" ")).then((value) => {
@@ -20,7 +20,7 @@ export var SearchJoox: void = globalThis.Client.on("joox search", async (data: H
 	})
 }, { event: ["jooxsearch <judul>"], command: ["jooxsearch", "searchjoox"], tag: "musik", isJudul: true, loading: true })
 
-export var JooxPlay: void = globalThis.Client.on("Joox Play", async (data: HandlingData, Cli: ClientMessage, event: EventEmitter) => {
+export var JooxPlay = globalThis.Client.on("Joox Play", async (data: HandlingData, Cli: ClientMessage, event: EventEmitter) => {
 	const { from, id, createAPI, args, sendOwner } = data;
 	var {  JooxPlay, JooxSearch } = createAPI;
 	if (/^(play)(?:s|)$/i.test(args[0])) {

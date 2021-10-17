@@ -2,7 +2,7 @@ import { HandlingData, IMussically, ITiktokVideoMetadata, ITTDownloader } from '
 import { ClientMessage } from '../Base/Scripts/client';
 
 
-export var Tiktokstalk: void = globalThis.Client.on("tiktok stalk", async (data: HandlingData, Cli: ClientMessage) => {
+export var Tiktokstalk = globalThis.Client.on("tiktok stalk", async (data: HandlingData, Cli: ClientMessage) => {
 	const { createAPI, from, id, args } = data;
 	var { TiktokStalk } = createAPI;
 	return void (await TiktokStalk(args[0]).then(async (respon) => {
@@ -32,7 +32,7 @@ export var Tiktokstalk: void = globalThis.Client.on("tiktok stalk", async (data:
 }, { command: ["tiktokstalk", "ttstalk", "stalktt", "stalktiktok"], tag: "stalk", event: ["tiktokstalk <username>"], isUsername: true, loading: true })
 
 
-export var TiktokDownloader: void = globalThis.Client.on("tiktok downloader", async (data: HandlingData, Cli: ClientMessage) => {
+export var TiktokDownloader = globalThis.Client.on("tiktok downloader", async (data: HandlingData, Cli: ClientMessage) => {
 	const { args, from, id, createAPI } = data;
 	var { TtDownloader, Musiccaly, MetadataVideoTiktok } = createAPI;
 	let RegToktok: RegExpMatchArray | null = args.join(" ").match(/(?:http(?:s|):\/\/|)(?:www\.|)tiktok.com\/@([-_0-9A-Za-z]{3,14})\/video\/([0-9]{8,50})(?:\?is_copy_url=0&is_from_webapp=v1&sender_device=pc&sender_web_id=(?:[0-9]{8,50}))|(?:http(?:s|):\/\/|)(?:(?:vt|vm)\.tiktok\.com\/([-_0-9A-Za-z]{3,14}))/g)

@@ -2,7 +2,7 @@ import { HandlingData } from '../typings';
 import { ClientMessage } from '../Base/Scripts/client';
 import moment from "moment-timezone";
 
-export var GhStalk: void = globalThis.Client.on("Github Stalk", async (data: HandlingData, Cli: ClientMessage) => {
+export var GhStalk = globalThis.Client.on("Github Stalk", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, args, id, createAPI } = data;
 	var { GithubStalk } = createAPI;
 	return void await GithubStalk(args[0]).then(async (respon) => {

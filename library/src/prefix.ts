@@ -6,7 +6,7 @@ import { IRegister } from '../typings';
 
 let Path: string = "./library/database/register.json";
 
-export var MultiPrefix: void = globalThis.Client.on("multi", async (data: HandlingData, Cli: ClientMessage) => {
+export var MultiPrefix = globalThis.Client.on("multi", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, args, sender } = data;
 	const database: IRegister[] = JSON.parse(fs.readFileSync(Path).toString()) as IRegister[];
 	const count: number = database.findIndex((value: IRegister) => value.id == sender)
@@ -33,12 +33,12 @@ export var MultiPrefix: void = globalThis.Client.on("multi", async (data: Handli
 	}
 }, { event: ["multi <on/off>"],  tag: "user", command: ["multi"], withPrefix: false })
 
-export var Prefix: void = globalThis.Client.on("Prefix", (data: HandlingData, Cli: ClientMessage) => {
+export var Prefix = globalThis.Client.on("Prefix", (data: HandlingData, Cli: ClientMessage) => {
 	const { from, prefix, id } = data;
 	return void Cli.reply(from, `Prefix anda untuk saat ini adalah ${prefix}`, id)
 }, { event: ["prefix"], tag: "user", command: ["prefix"], withPrefix: false })
 
-export var setPrefix: void = globalThis.Client.on("setprefix", (data: HandlingData, Cli: ClientMessage) => {
+export var setPrefix = globalThis.Client.on("setprefix", (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, args, prefix, sender } = data;
 	if (!args[0]) return void Cli.reply(from, `*「❗」*  Mohon maaf kak harap masukkan prefix yang ingin kakak ubah`, id);
 	if (args[0] == prefix) return  void Cli.reply(from, `*「❗」*  Mohon maaf kak prefix yang ingin kamu ubah sama persis dengan prefix sebelumnya`, id);

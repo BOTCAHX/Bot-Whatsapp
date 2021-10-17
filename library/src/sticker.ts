@@ -4,7 +4,7 @@ import ffmpeg from "fluent-ffmpeg";
 import * as fs from "fs";
 import { proto } from "@adiwajshing/baileys";
 
-export var Sticker: void = globalThis.Client.on("sticker", async (data: HandlingData, Cli: ClientMessage) => {
+export var Sticker = globalThis.Client.on("sticker", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, media, args, isGambar, isQuotedImage, isVideo, isQuotedVideo, isQuotedSticker, createAPI } = data;
 	if (isGambar || isQuotedImage) 
 		try {
@@ -54,7 +54,7 @@ export var Sticker: void = globalThis.Client.on("sticker", async (data: Handling
 	
 }, { event: ["sticker <media>"], tag: "converter", command: ["s", "sticker", "stiker", "stickergif", "stikergif", "sgif"], isMedia: true, loading: false, withImghelpers: "https://bit.ly/39026d3", helpers: globalThis.Lang.HelpSticker() })
 
-export var sticker2: void = globalThis.Client.on("Sticker2", async (data: HandlingData, Cli: ClientMessage) => {
+export var sticker2 = globalThis.Client.on("Sticker2", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, media, args, isGambar, isQuotedImage, isVideo, isQuotedVideo, isQuotedSticker, createAPI } = data;
 	var { OpenWaSticker } = createAPI;
 	let getWm1: string | undefined =  /\|/gi.test(args.join(" ")) ? args.join(" ").split("|")[0] : undefined;
@@ -69,7 +69,7 @@ export var sticker2: void = globalThis.Client.on("Sticker2", async (data: Handli
 	}
 }, { event: ["sticker2 <media>"], tag: "converter", command: ["s2", "sticker2", "stiker2", "stickergif2", "stikergif2", "sgif2"], isMedia: true })
 
-export var Stickernocrop: void = globalThis.Client.on("sticker no crop", async (data: HandlingData, Cli: ClientMessage) => {
+export var Stickernocrop = globalThis.Client.on("sticker no crop", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, media, args, isGambar, isQuotedImage, isVideo, isQuotedVideo, isQuotedSticker, createAPI } = data;
 	var { OpenWaSticker } = createAPI;
 	let getWm1: string | undefined =  /\|/gi.test(args.join(" ")) ? args.join(" ").split("|")[0] : undefined;
@@ -84,7 +84,7 @@ export var Stickernocrop: void = globalThis.Client.on("sticker no crop", async (
 	}
 }, { event: ["stickernocrop <media>"], tag: "converter", command: ["stickernocrop", "stikernocrop","snocrop"], isMedia: true})
 
-export var Triggereder: void = globalThis.Client.on("triggered", async function (data: HandlingData, Cli: ClientMessage) {
+export var Triggereder = globalThis.Client.on("triggered", async function (data: HandlingData, Cli: ClientMessage) {
 	const { from, id, media, isGambar, isQuotedImage, isQuotedSticker, isQuotedStickerGif } = data;
 	if (isGambar || isQuotedImage) {
 		await Cli.wait()

@@ -5,7 +5,7 @@ import { languages } from "@vitalets/google-translate-api";
 
 
 
-export var googleSearch: void = globalThis.Client.on("google search", async (data: HandlingData, Cli: ClientMessage) => {
+export var googleSearch = globalThis.Client.on("google search", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, args, createAPI } = data;
 	var { GoogleSearch } = createAPI;
 	return void await GoogleSearch(args.join(" ")).then((result) => {
@@ -21,7 +21,7 @@ export var googleSearch: void = globalThis.Client.on("google search", async (dat
 	})
 }, { event: ["google <querry>"], tag: "search", command: ["google", "googlesearch"], isQuerry: true })
 
-export var googleImg: void = globalThis.Client.on("Google image", async (data: HandlingData, Cli: ClientMessage) => {
+export var googleImg = globalThis.Client.on("Google image", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, args, createAPI } = data;
 	var { GoogleImages } = createAPI;
 	let getNumber: number = isNaN(Number(args[0])) ? 7 : Number(args[0])
@@ -49,7 +49,7 @@ export var googleImg: void = globalThis.Client.on("Google image", async (data: H
 	})
 }, { event: ["googleimg <querry>"], tag: "search", command: ["googleimg", "googleimage"], isQuerry: true})
 
-export var Translate: void = globalThis.Client.on("Translate", async (data: HandlingData, Cli: ClientMessage) => {
+export var Translate = globalThis.Client.on("Translate", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, createAPI, args, bodyQuoted, sendOwner } = data;
 	var { GoogleTranslate, checkSupportLanguage } = createAPI;
 	let Code: string | undefined;

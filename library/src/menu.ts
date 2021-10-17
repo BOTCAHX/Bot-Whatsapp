@@ -10,7 +10,7 @@ let Path: string = "./library/database/register.json";
 
 if (!fs.existsSync(Path)) fs.writeFileSync(Path, JSON.stringify([]))
 
-export var Menu: void = globalThis.Client.on("menu", async (data: HandlingData, Cli: ClientMessage) => {
+export var Menu = globalThis.Client.on("menu", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, prefix, isOwner, Jam, sender } = data;
 	let Format: { withPrefix: { tag: string, menu: string[]}[],  noPrefix: { tag: string, menu: string[]}[]} = {
 		withPrefix: [],
@@ -113,13 +113,13 @@ return void await Cli.sendButtonMenu (from, {
 
 }, { event: ["menu"], tag: "user", command: ["menu", "manu"]})
 
-export var Owner: void = globalThis.Client.on("ownerButtons", async (data: HandlingData, Cli: ClientMessage) => {
+export var Owner = globalThis.Client.on("ownerButtons", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id } = data;
 	await Cli.sendContactOwner(from, id)
 	return void (await Cli.reply(from, "Itu kak nomer ownerku, jangan dispam ya", id))
 }, { event: ["owner"], tag: "user", command: ["owner"], isButton: true, withPrefix: false})
 
-export var Script: void = globalThis.Client.on("Sc Buttons", async (data: HandlingData, Cli: ClientMessage) => {
+export var Script = globalThis.Client.on("Sc Buttons", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id } = data;
 	return void (await Cli.reply(from, "Ini scnya kak https://github.com/rayyreall/Bot-Whatsapp Cara penginstalan ada di readme ya", id))
 }, { event: ["sc"], tag: "user", command: ["sc"], isButton: true, withPrefix: false})

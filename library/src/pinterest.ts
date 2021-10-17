@@ -4,7 +4,7 @@ import parsems, { Parsed } from "parse-ms";
 
 
 
-export var Pinterest: void = globalThis.Client.on("Pinterest", async (data: HandlingData, Cli: ClientMessage) => {
+export var Pinterest = globalThis.Client.on("Pinterest", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, createAPI, args } = data;
 	var { Pinterest } = createAPI;
 	const Time: number = Date.now()
@@ -38,7 +38,7 @@ export var Pinterest: void = globalThis.Client.on("Pinterest", async (data: Hand
 	}
 }, { event: ["pinterest <querry>"], isQuerry: true, command: "pinterest", tag: "search" })
 
-export var PinDown: void = globalThis.Client.on("Pinterest Down", async (data: HandlingData, Cli: ClientMessage) => {
+export var PinDown = globalThis.Client.on("Pinterest Down", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, createAPI, args } = data;
 	var { PinterestDown, RegPinterestDown  } = createAPI;
 	let getUrl: RegExpMatchArray | null = args.join(" ").match(RegPinterestDown)

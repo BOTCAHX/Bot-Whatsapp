@@ -4,7 +4,7 @@ import { proto } from "@adiwajshing/baileys";
 import * as fs from "fs";
 
 
-export var ToUrl: void = globalThis.Client.on("tourl", async(data: HandlingData, Cli: ClientMessage) => {
+export var ToUrl = globalThis.Client.on("tourl", async(data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, media, createAPI } = data;
 	var { Ugusee } = createAPI;
 	let File: string = await Cli.decryptMedia(media as proto.WebMessageInfo, true) as string

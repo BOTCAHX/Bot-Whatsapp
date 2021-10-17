@@ -9,7 +9,7 @@ if (!fs.existsSync(SaveStiCmd)) fs.writeFileSync(SaveStiCmd, JSON.stringify([]))
 const database: IStickerCmd[] = JSON.parse(fs.readFileSync(SaveStiCmd).toString()) as IStickerCmd[];
 
 // Belom jadi Kembangin sendiri sono
-export const AddStickerCmd: void = globalThis.Client.on("Add Sticker Cmd", async (data: HandlingData, Cli: ClientMessage) => {
+export const AddStickerCmd = globalThis.Client.on("Add Sticker Cmd", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, isQuotedSticker, id, sender, FileSha, args, prefix } = data;
 	if (isQuotedSticker) {
 		let Cmd: string = args[0]

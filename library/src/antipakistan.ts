@@ -9,7 +9,7 @@ if (!fs.existsSync(Path)) fs.writeFileSync(Path, JSON.stringify({
 	"antipakistan": false
 } as IConfiguration))
 
-export var NoPakistan: void = globalThis.Client.on("Anti Pakistan", (data: HandlingData, Cli: ClientMessage) => {
+export var NoPakistan = globalThis?.Client?.on("Anti Pakistan", (data: HandlingData, Cli: ClientMessage) => {
 	const { from, args, id } = data;
 	let test: "on" | "off" | null = /^(on)$/i.test(args[0]) ? "on" : /^(off)$/i.test(args[0]) ? "off" : null;
 	if (!test) return Cli.reply(from, "*「❗」*  Maaf kak format yang kakak masukkan salah, pilih on/off", id);

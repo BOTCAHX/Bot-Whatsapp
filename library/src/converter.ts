@@ -4,7 +4,7 @@ import ffmpeg from "fluent-ffmpeg";
 import * as fs from "fs";
 import { proto } from "@adiwajshing/baileys";
 
-export var Tomp3: void = globalThis.Client.on("tomp3", async (data: HandlingData, Cli: ClientMessage) => {
+export var Tomp3 = globalThis.Client.on("tomp3", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, media,isVideo, isQuotedVideo, command } = data;
 	if (isVideo || isQuotedVideo) {
 		await Cli.wait()
@@ -30,7 +30,7 @@ export var Tomp3: void = globalThis.Client.on("tomp3", async (data: HandlingData
 	}
 }, { event: ["tomp3 <video>"], tag: "converter", command: ["tomp3", "toaudio"], isMedia: true });
 
-export var ToVideo: void = globalThis.Client.on("tovideo", async (data: HandlingData, Cli: ClientMessage) => {
+export var ToVideo = globalThis.Client.on("tovideo", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, media, isQuotedSticker, isQuotedStickerGif } = data;
 	const { WebpToMP4 } = data.createAPI;
 	if (!isQuotedSticker) return Cli.reply(from, `*「❗」* Mohon maaf kak, harap reply sticker Gif untuk mengubah Sticker gif menjadi video`, id)

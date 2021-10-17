@@ -3,7 +3,7 @@ import { ClientMessage } from '../Base/Scripts/client';
 import { VideoSearchResult } from "yt-search";
 
 
-export var YtSearch: void = globalThis.Client.on("ytsearch", async (data: HandlingData, Cli: ClientMessage) => {
+export var YtSearch = globalThis.Client.on("ytsearch", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, args } = data;
 	const { YoutubeSearch } = data.createAPI;
 	const result: VideoSearchResult[] = await YoutubeSearch(args.join(" "))
@@ -23,7 +23,7 @@ export var YtSearch: void = globalThis.Client.on("ytsearch", async (data: Handli
 	await Cli.sendFile(from, result[0].thumbnail || result[0].image, { quoted: id, caption: text })
 }, { event: ["ytsearch <judul>"], command: ["ytsearch", "yts"], tag: "search", isQuerry: true, loading: true })
 
-export var play: void = globalThis.Client.on("play", async (data: HandlingData, Cli: ClientMessage) => {
+export var play = globalThis.Client.on("play", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, args, createAPI } = data;
 	var { YoutubeSearch, ParseVideoMetadataMP3 , VideoMetadata, ytdlCore, YoutubePlayData } = createAPI;
 	const regex: RegExp = /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/
@@ -75,7 +75,7 @@ export var play: void = globalThis.Client.on("play", async (data: HandlingData, 
 	})
 }, { event: ["play mp4 <judul/url>", "play mp3 <judul/url>", "play <judul/url>"], command: ["play"], tag: "musik", isQuerry: true  })
 
-export var ytmp4: void = globalThis.Client.on("ytmp4", async (data: HandlingData, Cli: ClientMessage) => {
+export var ytmp4 = globalThis.Client.on("ytmp4", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, createAPI, args } = data;
 	var { ParseVideoMetadataMP4, VideoMetadata,  YoutubeSearch } = createAPI;
 	const regex: RegExp = /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/
@@ -90,7 +90,7 @@ export var ytmp4: void = globalThis.Client.on("ytmp4", async (data: HandlingData
 	})
 }, { event: ["ytmp4 <Judul/url>"], command: ["ytmp4", "youtubemp4", "ytv"], tag: "musik", isQuerry: true })
 
-export var ytmp3: void = globalThis.Client.on("ytmp3", async (data: HandlingData, Cli: ClientMessage) => {
+export var ytmp3 = globalThis.Client.on("ytmp3", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, createAPI, args } = data;
 	var { ParseVideoMetadataMP3, VideoMetadata,  YoutubeSearch } = createAPI;
 	const regex: RegExp = /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/
@@ -105,7 +105,7 @@ export var ytmp3: void = globalThis.Client.on("ytmp3", async (data: HandlingData
 	})
 }, { event: ["ytmp3 <Judul/url>"], command: ["ytmp3", "youtubemp3"], tag: "musik", isQuerry: true })
 
-export var ytStalk: void = globalThis.Client.on("youtube stalk", async (data: HandlingData, Cli: ClientMessage) => {
+export var ytStalk = globalThis.Client.on("youtube stalk", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, createAPI, id, args } = data;
 	var { YoutubeStalk  } = createAPI;
 	return void await YoutubeStalk (args.join(" ")).then(async (result) => {
