@@ -1,4 +1,4 @@
-import { LogLogin, getBuffer, getUrl,  Tunggu,  RandomName, Runtime, autoPath, UserAgent, RandomArray,  Checkker  } from "../functions/function";
+import { LogLogin, getBuffer, getUrl,  Tunggu,  RandomName, Runtime, autoPath, UserAgent, RandomArray  } from "../functions/function";
 import { Exec, convertToWebp, createWmSticker, WebpToGif, WebpToMp4, convertWebpNoCrop, CreateImageToCircle  } from "../tools"
 import {  FunctionMethod, ToolsMethod } from "../typings";
 import { Ucapan } from "./static";
@@ -17,8 +17,7 @@ const Functions: FunctionMethod  = {
 	autoPath,
 	createExif,
 	UserAgent,
-	RandomArray,
-	Checkker
+	RandomArray
 }
 const Tools: ToolsMethod = {
 	Exec,
