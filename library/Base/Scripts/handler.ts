@@ -37,10 +37,10 @@ export class HandlerData  {
 		const isSticker: boolean = type === 'stickerMessage';
 		const Jam: string = moment(new Date()).format('LLLL');
 		const isQuotedSticker: boolean = typeQuoted === 'stickerMessage';
-        const isQuotedImage: boolean = typeQuoted ===  'imageMessage';
-        const isQuotedVideo: boolean = typeQuoted === "videoMessage";
-        const isQuotedAudio: boolean = typeQuoted === 'audioMessage';
-        const isQuotedDokumen: boolean = typeQuoted === 'documentMessage';
+                const isQuotedImage: boolean = typeQuoted ===  'imageMessage';
+                const isQuotedVideo: boolean = typeQuoted === "videoMessage";
+                const isQuotedAudio: boolean = typeQuoted === 'audioMessage';
+                const isQuotedDokumen: boolean = typeQuoted === 'documentMessage';
 		const isQuotedStickerGif: boolean = media?.message?.stickerMessage?.isAnimated || false;
 		const register: IRegister | undefined = database.find((value: IRegister | undefined) => value?.id == sender);
 		const prefix: string = register?.multi ? /^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi.test(command) ? (command.match(/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi) as RegExpMatchArray)[0] : "Multi Prefix" : register?.prefix ?? "."
@@ -50,12 +50,12 @@ export class HandlerData  {
 		const groupMetadata = async (): Promise <GroupMetadata> => {
 			const groupMetadata: WAGroupMetadata | null = isGroupMsg ? await client.groupMetadata(from) : null;
 			const bot: WAGroupParticipant | {} | undefined = isGroupMsg ? groupMetadata?.participants.find((v) => v.jid === client.user.jid) : {};
-            const user: WAGroupParticipant | {} | undefined = isGroupMsg ? groupMetadata?.participants.find((v) => v.jid === client.user.jid) : {};
+                        const user: WAGroupParticipant | {} | undefined = isGroupMsg ? groupMetadata?.participants.find((v) => v.jid === client.user.jid) : {};
 			const groupMember: WAGroupParticipant[] | null | undefined = isGroupMsg ? groupMetadata?.participants : null;
-            const groupAdmins: string[] = isGroupMsg ? groupMember !== null ? groupMember?.filter((value) => value.isAdmin == true) ? groupMember.filter((value) => value.isAdmin == true).map((value) => value.jid) : [] : [] : [];
-            const isGroupAdmins: boolean = isGroupMsg ? groupAdmins.includes(sender || '') : false;
-            const isBotAdmins: boolean = isGroupMsg ? groupAdmins.includes(botNumber) : false;
-            const ownerGroup: string | null | undefined = isGroupMsg ? groupMetadata?.owner : null;
+                        const groupAdmins: string[] = isGroupMsg ? groupMember !== null ? groupMember?.filter((value) => value.isAdmin == true) ? groupMember.filter((value) => value.isAdmin == true).map((value) => value.jid) : [] : [] : [];
+                        const isGroupAdmins: boolean = isGroupMsg ? groupAdmins.includes(sender || '') : false;
+                        const isBotAdmins: boolean = isGroupMsg ? groupAdmins.includes(botNumber) : false;
+                        const ownerGroup: string | null | undefined = isGroupMsg ? groupMetadata?.owner : null;
 			return { groupMetadata, bot, user,  groupMember, groupAdmins, isGroupAdmins, isBotAdmins, ownerGroup } as GroupMetadata
 		}
 		const ToBuffer = async (getData?: string | Buffer): Promise <Buffer> => {
