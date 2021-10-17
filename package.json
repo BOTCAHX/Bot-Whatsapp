@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "ts-node ./library/test/index.ts",
-    "start": "tsc && node ./library/dist/Base/index.js",
-    "build": "npm i -g ts-node && npm i",
+    "start": "node ./library/dist/Base/index.js",
+    "build": "npm i -g ts-node && npm i && tsc",
     "building": "tsc -p ."
   },
   "type": "commonjs",
