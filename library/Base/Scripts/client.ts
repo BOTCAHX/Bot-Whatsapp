@@ -1,5 +1,5 @@
 import { WAConnection, MessageType, proto, WAGroupParticipant, compressImage, WAGroupModification, GroupSettingChange } from '@adiwajshing/baileys'
-import {  HandlingData,  Formatter  } from "../../typings";
+import {  HandlingData,  Formatter, ButtonsMessage  } from "../../typings";
 import filetype, { FileTypeResult } from "file-type";
 import { RandomName, getUrl, getBuffer } from "../../functions/function";
 import { response } from "../../plugins";
@@ -24,6 +24,81 @@ export class ClientMessage {
 		}
 		if (save) return await this.client.downloadAndSaveMediaMessage(media, path || `./library/storage/temp/${RandomName(Number(result.join("")))}`)
 		return await this.client.downloadMediaMessage(media)
+	}
+	public async sendButtons (from: string, buttons: ButtonsMessage, id?: proto.WebMessageInfo) {
+		const ParseMentioned: string[] | undefined = (String(buttons.text).match(/@(0|[0-9]{4,16})/g)?.map((values: string) => values.split("@")[1] + "@s.whatsapp.net")) ?? []
+		const Reparse: string[] | undefined = (await (await this.data.groupMetadata()).groupMember)?.map((values: WAGroupParticipant) => values.jid) ?? []
+		let Mentioned: string[] = [];
+		if (ParseMentioned) {
+			for (let result of ParseMentioned) {
+				Reparse?.filter((value: string) => {
+					if (value === result) Mentioned.push(result)
+				})
+			}
+		}
+		let metadata;
+		let thumb: { thumbnail?: Buffer | undefined } | any = { thumbnail: undefined };
+		let Mime;
+		if (!buttons.text) buttons.text = "";
+		if (!buttons.subtitle) buttons.subtitle = "";
+		for (let button of buttons.buttons) {
+			if (!button.id) button.id = "1";
+			if (!button.type) button.type = 1;
+		}
+		if (!buttons.headerType && !buttons.media) {
+			buttons.headerType = 1;
+		} else if (!buttons.headerType && buttons.media) {
+			let MediaBuffer: Buffer = Buffer.isBuffer(buttons.media) ? buttons.media : fs.existsSync(buttons.media) ? fs.readFileSync(buttons.media) : await getBuffer((getUrl(buttons.media) as RegExpMatchArray)[0])
+			const getType: FileTypeResult | undefined = Buffer.isBuffer(buttons.media) ? (await filetype.fromBuffer(buttons.media)) : fs.existsSync(buttons.media) ? (await filetype.fromFile(buttons.media)) : (await filetype.fromBuffer(await getBuffer((getUrl(buttons.media) as RegExpMatchArray)[0])));
+			switch (buttons.isLocation ? "location" : buttons.isDocs ? "docs": getType?.ext) {
+				case "docs": {
+					buttons.headerType = 3;
+					Mime = getType?.mime
+					metadata = { documentMessage: { ...(await this.client.prepareMessageMedia(MediaBuffer, MessageType.document, { mimetype: getType?.mime})).documentMessage, mimetype: getType?.mime }}
+				}
+				break
+				case "location": {
+					buttons.headerType = 6;
+					metadata = { locationMessage: buttons.locationMessage}
+				}
+				break
+				case "mp4":
+				case "mkv":
+				case "m4a":
+				case "m4p":
+				case "m4v":
+				case "gif":
+				     buttons.headerType = 5;
+					 metadata = { videoMessage: (await this.client.prepareMessageMedia(MediaBuffer, MessageType.video)).videoMessage }
+				break
+				case "png":
+				case "jpg":
+				case "webp":
+				    buttons.headerType = 4;
+					let img: proto.Message = await this.client.prepareMessageMedia(MediaBuffer, MessageType.image, { thumbnail: compressImage(MediaBuffer) as any, })
+					metadata = { imageMessage: img.imageMessage }
+					thumb.thumbnail = await compressImage(MediaBuffer)
+				break
+			}
+		}
+		if (!metadata) metadata = {}
+		let createNewButtons: proto. IButton[] = []
+		for (let Button of buttons.buttons) {
+			createNewButtons.push({
+				buttonId: Button.id,
+				buttonText: { displayText: Button.Text},
+				type: Button.type
+			})
+		}
+		const createParams:  proto.ButtonsMessage = {
+			contentText: buttons.text,
+			footerText: buttons.subtitle,
+			buttons:  createNewButtons,
+			headerType: buttons.headerType,
+			...metadata
+		} as proto.ButtonsMessage;
+		if (!thumb.thumbnail) thumb = {}
+		return await this.client.sendMessage(from, createParams as proto.ButtonsMessage, MessageType.buttonsMessage, { ...thumb, quoted: id, contextInfo: { mentionedJid: Mentioned }, mimetype: Mime})
 	}
 	public respon: Formatter = response as Formatter
 	public async sendTextWithMentions (from: string, text: string, id?: proto.WebMessageInfo): Promise <proto.WebMessageInfo> {
