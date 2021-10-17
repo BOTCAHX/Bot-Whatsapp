@@ -11,7 +11,7 @@ let Path: string = "./library/database/afk.json";
 if (!fs.existsSync(Path)) fs.writeFileSync(Path, JSON.stringify([]));
 const database: IAwayFromKeyboard[] = JSON.parse(fs.readFileSync(Path).toString()) as IAwayFromKeyboard[];
 
-export var AfkHandler: void = globalThis.Client.on("afk", async (data: HandlingData, Cli: ClientMessage) => {
+export var AfkHandler = globalThis.Client.on("afk", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, args, sender, pushname, groupMetadata } = data;
 	if (database.filter((value) => value.id === sender).find((values) => values.from === from)) return void await Cli.reply(from, `*「❗」* Fitur AFK telah anda diaktifkan sebelumnya.`, id)
 	const Format: IAwayFromKeyboard = {
@@ -33,7 +33,7 @@ export var AfkHandler: void = globalThis.Client.on("afk", async (data: HandlingD
 }, { event: ["afk <alasan>"], tag: "groups", command: ["afk"], isGroupMsg: true })
 
 
-export var tagAfk: void = globalThis.Client.open("tag afk", async (data: HandlingData, Cli: ClientMessage) => {
+export var tagAfk = globalThis.Client.open("tag afk", async (data: HandlingData, Cli: ClientMessage) => {
 	return new Promise (async (resolve, reject) => {
 		const { mentioned,  from, id, sender, isBot } = data;
 		if (isBot) return
@@ -58,7 +58,7 @@ export var tagAfk: void = globalThis.Client.open("tag afk", async (data: Handlin
 	})
 }, { isGroupMsg: true })
 
-export var AfkCheck: void = globalThis.Client.open("check Afk", async (data: HandlingData, Cli: ClientMessage) => {
+export var AfkCheck = globalThis.Client.open("check Afk", async (data: HandlingData, Cli: ClientMessage) => {
 	const { from, id, sender, command, prefix } = data;
 	if (database.filter((value) => value.id === sender).find((values) => values.from === from)) {
 		if (!command.startsWith(prefix + "afk")) {
