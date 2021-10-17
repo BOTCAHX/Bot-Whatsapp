@@ -10,8 +10,21 @@ moment.tz.setDefault('Asia/Jakarta').locale('id');
 
 const Web: Websites  = new Websites ();
 
+/**
+ * [Connected description]
+ */
 class Connected extends WebData{
+	/**
+	 * [client description]
+	 *
+	 * @return  {[type]}  [return description]
+	 */
 	public client: WAConnection = new WAConnection();
+	/**
+	 * [client description]
+	 *
+	 * @var {[type]}
+	 */
 	public Handler: MainHandler = new MainHandler(this.client, this, { isWeb: false });
 	public Total: number = 0;
 	constructor () {
@@ -42,6 +55,14 @@ class Connected extends WebData{
 			})
 		})
 	}
+	/**
+	 * [log description]
+	 *
+	 * @param   {[type]}  err  [err description]
+	 * @param   {[type]}  err  [err description]
+	 *
+	 * @return  {[type]}       [return description]
+	 */
 	public async sendRespon () {
 		try {
 			this.Handler.BeforeConnect()
