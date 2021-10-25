@@ -33,7 +33,7 @@
     "@adiwajshing/baileys": "github:adiwajshing/baileys",
     "@types/cacheable-request": "^6.0.2",
     "@vitalets/google-translate-api": "^7.0.0",
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "body-parser": "^1.19.0",
     "brainly-scraper-v2": "^2.0.4-1",
     "cacheable-request": "^7.0.2",
