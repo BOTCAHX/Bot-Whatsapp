@@ -38,7 +38,7 @@
     "brainly-scraper-v2": "^2.0.4-1",
     "cacheable-request": "^7.0.2",
     "canvas": "^2.8.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "cheerio": "^1.0.0-rc.10",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
